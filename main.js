@@ -78,7 +78,7 @@ function randomMessage() {
 function fetchEmail(msg) {
 	var REGEX_EMAIL = /([0-9A-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,})/gi;
 	var email_matches = msg.content.match(REGEX_EMAIL);
-	if (email_matches == null) {
+	if (email_matches !== null) {
 		return email_matches[0];
 	} else {
 		return null;
