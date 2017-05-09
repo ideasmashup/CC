@@ -3,7 +3,7 @@
 */
 var fs = require('fs');
 
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 
 try {
 	var Discord = require("discord.js");
@@ -41,14 +41,60 @@ try {
 	process.exit();
 }
 
-function processAndReplyToEmail(msg) {
-	// email
+
+function randomMessage() {
+	var messages = [
+		"Hey %s !",
+		"Ha ha ha %s...",
+		"Ok !",
+		"Lelouuche! (/me sors)",
+		"...",
+		"^^:",
+		"Hello World !",
+		"Hello %s !",
+		"Les bots sont des génies... ou pas!",
+		"qui m'aime me suive... ...%s?",
+		"%s!! stoooop... je comprend rien!",
+		"le numéro composé n'est pas disponible!",
+		"moi présidente!",
+		"ok %s... pour le moment je suis pas très intelligente, MAIS ça va changer! Peut-être!",
+		"%s, demande à @will pour me reprogrammer!",
+		"bonne journée!",
+		"je sais parler dans ...mmh une seule langue. déso!",
+		"#discord #shadow #CC",
+		"#CC4EVER !",
+		"à vos ordre! Oui, mon #general!"
+		"un mail donné, un numéro de commande renvoyé! Oh yeah!",
+		"magique !",
+		"flippant...",
+		"Vive les Shadow! Mes petits frères, qui sont trop forts!",
+		"C'est kro-meugnon! *_*",
+		"<3 !",
+		"Go overwatch bo3 (hum... non)"
+	];
+	return messages[Math.floor(Math.random() * messages.length)];
+}
+
+function fetchEmail(msg) {
 	var REGEX_EMAIL = /([0-9A-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,})/gi;
 	var email_matches = msg.content.match(REGEX_EMAIL);
-	if (email_matches !== null) {
+	if (email_matches == null) {
+		return email_matches[0];
+	} else {
+		return null;
+	}
+}
+
+function isShippingRequest(str) {
+	str = str.toLowerCase();
+	return (str.indexOf("commande") > -1 || str.indexOf("livraison") > -1 || str.indexOf("ordre") > -1 || str.indexOf("placement") > -1)
+}
+
+function processAndReplyToEmail(msg, email) {
+	// email
+	if (email !== null) {
 		console.log("email detected : " + email_matches + "("+ email_matches.length +")");
 
-		var email = email_matches[0];
 		var index = Martiens.liste.indexOf(email);
 
 		msg.channel.sendMessage(msg.author + ", merci pour ton mail.");
@@ -63,7 +109,7 @@ function processAndReplyToEmail(msg) {
 			msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
 		}
 
-		if (msg.channel.client === undefined) {
+		if (msg.channel.client == undefined) {
 			// pas sur un channel privé
 			msg.channel.sendMessage("PS: Attention " + msg.author + " ! Passes ton mail seulement MP stp !!! (supprimes ton msg car tu es sur un chan public)");
 		}
@@ -74,17 +120,21 @@ function processAndReplyToEmail(msg) {
 }
 
 function processAndReply(msg) {
-	// version
-	if (msg.content.indexOf("version") != -1)
+	if (msg.content.indexOf("version") != -1) {
+		// renvoie le numéro de version
 		msg.channel.sendMessage("pour info je suis en version "+ VERSION);
-
-	var processed = false;
-
-	// email
-	processed = processAndReplyToEmail(msg);
-
-	if (!processed) {
+	}
+	else if (fetchEmail(msg)) {
+		// renvoie un numér de commande si un email est détecté
+		processAndReplyToEmail(msg);
+	}
+	else if (isShippingRequest(msg.content){
+		// invite à fournir un mail si demande de numéro de commande potentielle
 		msg.channel.sendMessage(msg.author + ", pour connaître ton numéro de commande, passes-moi ton mail en MP ! Bonne journée !");
+	}
+	else {
+		// réponse random
+		msg.channel.sendMessage(util.format(randomMessage(), msg.author));
 	}
 }
 
