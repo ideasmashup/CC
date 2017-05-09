@@ -59,8 +59,8 @@ function replyToMessage(msg, isEdit) {
 		}
 
 		// email
-		var REGEX_EMAIL = /[0-9a-zA-Z_-.]+@[0-9a-zA-Z_-.]{4,}}/;
-		var email_matches = msg.match(REGEX_EMAIL);
+		var REGEX_EMAIL = /[0-9a-zA-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,}}/gi;
+		var email_matches = msg.content.match(REGEX_EMAIL);
 		if (email_matches !== null) {
 			var email = email_matches[0];
 			var index = Martiens.liste.indexOf(email);
