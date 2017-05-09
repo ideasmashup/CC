@@ -51,17 +51,20 @@ function processAndReplyToEmail(msg) {
 		var email = email_matches[0];
 		var index = Martiens.liste.indexOf(email);
 
-		msg.channel.sendMessage(msg.author + ", merci pour ton mail. Pour rappel tu m'a indiqué : "+ email  +"");
+		msg.channel.sendMessage(msg.author + ", merci pour ton mail.");
 
 		if (index == -1) {
-			msg.channel.sendMessage("malheureusement ton mail n'est pas dans la liste.\nVérifies qu'il n'y a pas d'erreur. Sinon demande plutôt à mon créateur (@will#3506) ! ;-)");
+			msg.channel.sendMessage("mmh... ton mail ("+ email +") n'est pas dans la liste. Donc plusieurs possibilités :\n"
+				+ "```- ton mail a été mal tapé ou il y a des majuscules en trop\n- tu ne fais pas partie du batch de mars\n- je me suis trompé quelque part```\n"
+				+ "Vérifies qu'il n'y a pas d'erreur. Sinon demandes plutôt à mon créateur @will");
 		} else {
 			// padding pour compenser le décalage des numéros dans la DB
 			if (index < 300) index = index + 300;
 			msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
 		}
 
-		if (typeof msg.channel == "TextChannel") {
+		if (msg.channel.client === undefined) {
+			// pas sur un channel privé
 			msg.channel.sendMessage("PS: Attention " + msg.author + " ! Passes ton mail seulement MP stp !!! (supprimes ton msg car tu es sur un chan public)");
 		}
 
