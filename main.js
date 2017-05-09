@@ -158,6 +158,12 @@ function parseMessage(msg, isEdit) {
 				processAndReply(msg);
 			} else {
 				// on ignore les autres messages qui ne nous sont pas destinés en général?
+
+				// sauf les emails
+				if (fetchEmail(msg)) {
+					// renvoie un numér de commande si un email est détecté
+					processAndReplyToEmail(msg, fetchEmail(msg));
+				}
 			}
 		}
 	}
