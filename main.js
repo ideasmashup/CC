@@ -3,6 +3,8 @@
 */
 var fs = require('fs');
 
+const VERSION = "0.1.1";
+
 try {
 	var Discord = require("discord.js");
 } catch (e) {
@@ -58,9 +60,15 @@ function replyToMessage(msg, isEdit) {
 			}
 		}
 
+		// version 
+		if (msg.content.indexOf("version") != -1)
+			msg.channel.sendMessage("pour info je suis en version "+ VERSION);
+		
+
 		// email
-		var REGEX_EMAIL = /.*([0-9a-zA-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,}).*/gi;
+		var REGEX_EMAIL = /([0-9A-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,})/gi;
 		var email_matches = msg.content.match(REGEX_EMAIL);
+		if (email_matches !== null) console.log("email detected : " + email_matches + "("+ email_matches.length +")");
 		if (email_matches !== null) {
 			var email = email_matches[0];
 			var index = Martiens.liste.indexOf(email);
