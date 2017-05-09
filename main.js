@@ -61,7 +61,7 @@ function processAndReplyToEmail(msg) {
 			msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
 		}
 
-		if (msg.channel instanceof TextChannel) {
+		if (typeof msg.channel == "TextChannel") {
 			msg.channel.sendMessage("PS: Attention " + msg.author + " ! Passes ton mail seulement MP stp !!! (supprimes ton msg car tu es sur un chan public)");
 		}
 
