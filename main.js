@@ -68,7 +68,7 @@ function replyToMessage(msg, isEdit) {
 			msg.channel.sendMessage(msg.author + ", merci pour ton mail. Pour rappel tu m'a indiqué : "+ email  +"");
 
 			if (index == -1) {
-				msg.channel.sendMessage("malheureusement ton mail n'est pas dans la liste.\nVérifies qu'il n'y a pas d'erreur. Sinon demande plutôt à mon créateur (@will) ! ;-)");
+				msg.channel.sendMessage("malheureusement ton mail n'est pas dans la liste.\nVérifies qu'il n'y a pas d'erreur. Sinon demande plutôt à mon créateur (@will#3506) ! ;-)");
 			} else {
 				// padding pour compenser le décalage des numéros dans la DB
 				if (index < 300) index = index + 300;
