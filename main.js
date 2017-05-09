@@ -63,7 +63,7 @@ function randomMessage() {
 		"je sais parler dans ...mmh une seule langue. déso!",
 		"#discord #shadow #CC",
 		"#CC4EVER !",
-		"à vos ordre! Oui, mon #general!"
+		"à vos ordre! Oui, mon #general!",
 		"un mail donné, un numéro de commande renvoyé! Oh yeah!",
 		"magique !",
 		"flippant...",
