@@ -43,23 +43,23 @@ try {
 }
 
 
-function randomMessage() {
+function randomMessage(msg) {
 	var messages = [
-		"Hey %s !",
-		"Ha ha ha %s...",
+		"Hey "+ msg.author +" !",
+		"Ha ha ha ...",
 		"Ok !",
 		"Lelouuche! (/me sors)",
 		"...",
 		"^^:",
 		"Hello World !",
-		"Hello %s !",
+		"Hello "+ msg.author +" !",
 		"Les bots sont des génies... ou pas!",
-		"qui m'aime me suive... ...%s?",
-		"%s!! stoooop... je comprend rien!",
+		"qui m'aime me suive... ..."+ msg.author +"?",
+		""+ msg.author +"!! stoooop... je comprend rien!",
 		"le numéro composé n'est pas disponible!",
 		"moi présidente!",
-		"ok %s... pour le moment je suis pas très intelligente, MAIS ça va changer! Peut-être!",
-		"%s, demande à @will pour me reprogrammer!",
+		"ok "+ msg.author +"... pour le moment je suis pas très intelligente, MAIS ça va changer! Peut-être!",
+		""+ msg.author +", demande à @will pour me reprogrammer!",
 		"bonne journée!",
 		"je sais parler dans ...mmh une seule langue. déso!",
 		"#discord #shadow #CC",
@@ -71,7 +71,8 @@ function randomMessage() {
 		"Vive les Shadow! Mes petits frères, qui sont trop forts!",
 		"C'est kro-meugnon! *_*",
 		"<3 !",
-		"Go overwatch bo3 (hum... non)"
+		"Go overwatch bo3 (hum... non)",
+		"challenge accepted !"
 	];
 	return messages[Math.floor(Math.random() * messages.length)];
 }
@@ -135,7 +136,7 @@ function processAndReply(msg) {
 	}
 	else {
 		// réponse random
-		msg.channel.sendMessage(util.format(randomMessage(), msg.author));
+		msg.channel.sendMessage(randomMessage(msg));
 	}
 }
 
