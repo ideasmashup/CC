@@ -54,7 +54,7 @@ function processAndReplyToEmail(msg) {
 		msg.channel.sendMessage(msg.author + ", merci pour ton mail.");
 
 		if (index == -1) {
-			msg.channel.sendMessage("mmh... ton mail ("+ email +") n'est pas dans la liste. Donc plusieurs possibilités :\n"
+			msg.channel.sendMessage("mmh... ton mail *"+ email +"* n'est pas dans la liste. Donc plusieurs possibilités :\n"
 				+ "```- ton mail a été mal tapé ou il y a des majuscules en trop\n- tu ne fais pas partie du batch de mars\n- je me suis trompé quelque part```\n"
 				+ "Vérifies qu'il n'y a pas d'erreur. Sinon demandes plutôt à mon créateur @will");
 		} else {
