@@ -129,7 +129,7 @@ function processAndReply(msg) {
 	}
 	else if (fetchEmail(msg)) {
 		// renvoie un numér de commande si un email est détecté
-		processAndReplyToEmail(msg);
+		processAndReplyToEmail(msg, fetchEmail(msg));
 	}
 	else if (isShippingRequest(msg.content)) {
 		// invite à fournir un mail si demande de numéro de commande potentielle
