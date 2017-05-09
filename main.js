@@ -41,7 +41,51 @@ try {
 	process.exit();
 }
 
-function replyToMessage(msg, isEdit) {
+function processAndReplyToEmail(msg) {
+	// email
+	var REGEX_EMAIL = /([0-9A-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,})/gi;
+	var email_matches = msg.content.match(REGEX_EMAIL);
+	if (email_matches !== null) {
+		console.log("email detected : " + email_matches + "("+ email_matches.length +")");
+
+		var email = email_matches[0];
+		var index = Martiens.liste.indexOf(email);
+
+		msg.channel.sendMessage(msg.author + ", merci pour ton mail. Pour rappel tu m'a indiqué : "+ email  +"");
+
+		if (index == -1) {
+			msg.channel.sendMessage("malheureusement ton mail n'est pas dans la liste.\nVérifies qu'il n'y a pas d'erreur. Sinon demande plutôt à mon créateur (@will#3506) ! ;-)");
+		} else {
+			// padding pour compenser le décalage des numéros dans la DB
+			if (index < 300) index = index + 300;
+			msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
+		}
+
+		if (msg.channel instanceof TextChannel) {
+			msg.channel.sendMessage("PS: Attention " + msg.author + " ! Passes ton mail seulement MP stp !!! (supprimes ton msg car tu es sur un chan public)");
+		}
+
+		return true;
+	}
+	return false;
+}
+
+function processAndReply(msg) {
+	// version
+	if (msg.content.indexOf("version") != -1)
+		msg.channel.sendMessage("pour info je suis en version "+ VERSION);
+
+	var processed = false;
+
+	// email
+	processed = processAndReplyToEmail(msg);
+
+	if (!processed) {
+		msg.channel.sendMessage(msg.author + ", pour connaître ton numéro de commande, passes-moi ton mail en MP ! Bonne journée !");
+	}
+}
+
+function parseMessage(msg, isEdit) {
 	if (msg.author.id != bot.user.id && (msg.content.startsWith("!"))) {
 		// FIXME les messages commençants par ! seront à traiter comme des commandes
 	} else {
@@ -53,46 +97,19 @@ function replyToMessage(msg, isEdit) {
 
 		// les autres messages viennent des humains (ou autres bots)
 		if (msg.author != bot.user) {
-			if (msg.isMentioned(bot.user)) {
+			if (msg.isMentioned(bot.user) || msg.content.match(/@CC/gi)) {
 				// bot mentionné avec @CC
+				processAndReply(msg);
 			} else {
-				//
+				// on ignore les autres messages qui ne nous sont pas destinés en général?
 			}
 		}
-
-		// version 
-		if (msg.content.indexOf("version") != -1)
-			msg.channel.sendMessage("pour info je suis en version "+ VERSION);
-		
-
-		// email
-		var REGEX_EMAIL = /([0-9A-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,})/gi;
-		var email_matches = msg.content.match(REGEX_EMAIL);
-		if (email_matches !== null) console.log("email detected : " + email_matches + "("+ email_matches.length +")");
-		if (email_matches !== null) {
-			var email = email_matches[0];
-			var index = Martiens.liste.indexOf(email);
-
-			msg.channel.sendMessage(msg.author + ", merci pour ton mail. Pour rappel tu m'a indiqué : "+ email  +"");
-
-			if (index == -1) {
-				msg.channel.sendMessage("malheureusement ton mail n'est pas dans la liste.\nVérifies qu'il n'y a pas d'erreur. Sinon demande plutôt à mon créateur (@will#3506) ! ;-)");
-			} else {
-				// padding pour compenser le décalage des numéros dans la DB
-				if (index < 300) index = index + 300;
-				msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
-			}
-		}
-		else {
-			msg.channel.sendMessage(msg.author + ", pour connaître ton numéro de commande, passes moi ton mail ! Bonne journée !");
-		}
-
 	}
 }
-bot.on("message", (msg) => replyToMessage(msg, false));
+bot.on("message", (msg) => parseMessage(msg, false));
 bot.on("messageUpdate", (oldMessage, newMessage) => {
 	//replyToMessage(newMessage,true);
-	msg.channel.sendMessage("Désolé " + msg.author + " mais je ne sais pas réagir aux edits de messages... yolo !");
+	//msg.channel.sendMessage("Désolé " + msg.author + " mais je ne sais pas réagir aux edits de messages... yolo !");
 });
 
 bot.on("presence", function(user, status, gameId) {
