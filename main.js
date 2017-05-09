@@ -1,7 +1,8 @@
 /*
 	Chatbot personnalisé ultra-basique pour Discord
 */
-var fs = require('fs');
+const fs = require('fs');
+const util = require('util');
 
 const VERSION = "0.1.2";
 
