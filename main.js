@@ -128,7 +128,7 @@ function processAndReply(msg) {
 		// renvoie un numér de commande si un email est détecté
 		processAndReplyToEmail(msg);
 	}
-	else if (isShippingRequest(msg.content){
+	else if (isShippingRequest(msg.content)) {
 		// invite à fournir un mail si demande de numéro de commande potentielle
 		msg.channel.sendMessage(msg.author + ", pour connaître ton numéro de commande, passes-moi ton mail en MP ! Bonne journée !");
 	}
