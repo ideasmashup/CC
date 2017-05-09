@@ -1,6 +1,9 @@
 # Data
 data/*
 
+# Config
+auth.json
+
 # Logs
 logs
 *.log
