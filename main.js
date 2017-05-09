@@ -12,8 +12,8 @@ try {
 	process.exit();
 }
 console.log("Lancement du bot...\n"
-	"Node version: " + process.version + "\n"
-	"Discord.js version: " + Discord.version
+  + "Node version: " + process.version + "\n"
+	+ "Discord.js version: " + Discord.version
 );
 
 try {
