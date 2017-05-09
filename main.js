@@ -95,8 +95,7 @@ function isShippingRequest(str) {
 function processAndReplyToEmail(msg, email) {
 	// email
 	if (email !== null) {
-		console.log("email detected : " + email_matches + "("+ email_matches.length +")");
-
+		console.log("email detected : " + email);
 		var index = Martiens.liste.indexOf(email);
 
 		msg.channel.sendMessage(msg.author + ", merci pour ton mail.");
