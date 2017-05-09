@@ -32,6 +32,13 @@ bot.on("disconnected", function() {
 	process.exit(1); //exit node.js with an error
 });
 
+try {
+	var Martiens = require("./data/martiens.json");
+} catch (e) {
+	console.log("Il faut un fichier martiens.json pour continuer.\n" + e.stack);
+	process.exit();
+}
+
 function replyToMessage(msg, isEdit) {
 	if (msg.author.id != bot.user.id && (msg.content.startsWith("!"))) {
 		// FIXME les messages commençants par ! seront à traiter comme des commandes
@@ -42,12 +49,36 @@ function replyToMessage(msg, isEdit) {
 			return;
 		}
 
-		// mention du bot dans le message
-		if (msg.author != bot.user && msg.isMentioned(bot.user)) {
-			msg.channel.sendMessage(msg.author + ", besoin de quelque chose?");
-		} else {
-			//
+		// les autres messages viennent des humains (ou autres bots)
+		if (msg.author != bot.user) {
+			if (msg.isMentioned(bot.user)) {
+				// bot mentionné avec @CC
+			} else {
+				//
+			}
 		}
+
+		// email
+		var REGEX_EMAIL = /[0-9a-zA-Z_-.]+@[0-9a-zA-Z_-.]{4,}}/;
+		var email_matches = msg.match(REGEX_EMAIL);
+		if (email_matches !== null) {
+			var email = email_matches[0];
+			var index = Martiens.liste.indexOf(email);
+
+			msg.channel.sendMessage(msg.author + ", merci pour ton mail. Pour rappel tu m'a indiqué : "+ email  +"");
+
+			if (index == -1) {
+				msg.channel.sendMessage("malheureusement ton mail n'est pas dans la liste.\nVérifies qu'il n'y a pas d'erreur. Sinon demande plutôt à mon créateur (@will) ! ;-)");
+			} else {
+				// padding pour compenser le décalage des numéros dans la DB
+				if (index < 300) index = index + 300;
+				msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
+			}
+		}
+		else {
+			msg.channel.sendMessage(msg.author + ", pour connaître ton numéro de commande, passes moi ton mail ! Bonne journée !");
+		}
+
 	}
 }
 bot.on("message", (msg) => replyToMessage(msg, false));
@@ -68,5 +99,5 @@ bot.on("presence", function(user, status, gameId) {
 if (AuthConfig.bot_token) {
 	bot.login(AuthConfig.bot_token);
 } else {
-	console.log("Le login pat email n'est plus supporté! Veuillez utiliser un token utilisateur : https://discord.js.org/#/docs/main/master/general/updating");
+	console.log("Le login par email n'est plus supporté! Veuillez utiliser un token utilisateur : https://discord.js.org/#/docs/main/master/general/updating");
 }

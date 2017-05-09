@@ -2,12 +2,8 @@
 auth.json
 config.json
 
-
 # Data
 data/*
-
-# Config
-auth.json
 
 # Logs
 logs
