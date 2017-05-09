@@ -1,3 +1,8 @@
+# Config files
+auth.json
+config.json
+
+
 # Data
 data/*
 
