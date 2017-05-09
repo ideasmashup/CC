@@ -80,11 +80,13 @@ function randomMessage(msg) {
 function fetchEmail(msg) {
 	var REGEX_EMAIL = /([0-9A-Z_\-\.]+@[0-9a-zA-Z_\-\.]{4,})/gi;
 	var email_matches = msg.content.match(REGEX_EMAIL);
-	if (email_matches !== null) {
-		return email_matches[0];
-	} else {
-		return null;
+
+	if (email_matches != null) {
+		console.log("email detected ("+ email_matches.length +") : "+ email_matches)
+		if (email_matches.length >= 1)
+			return email_matches[0];
 	}
+	return null;
 }
 
 function isShippingRequest(str) {
