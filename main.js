@@ -150,6 +150,7 @@ function processAndReply(msg) {
 }
 
 function parseMessage(msg, isEdit) {
+	console.log(new Date() + " - "+ msg.author.name + " : "+ msg.content);
 	if (msg.author.id != bot.user.id && (msg.content.startsWith("!"))) {
 		// FIXME les messages commençants par ! seront à traiter comme des commandes
 	} else {
