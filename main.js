@@ -37,6 +37,11 @@ bot.on("disconnected", function() {
 
 try {
 	var Martiens = require("./data/martiens.json");
+	// match insensible à la casse
+	for (var i=0; i<Martiens.liste.length - 1; i++) {
+		Martiens.liste[i] = Martiens.liste[i].toLowerCase();
+	}
+
 } catch (e) {
 	console.log("Il faut un fichier martiens.json pour continuer.\n" + e.stack);
 	process.exit();
@@ -98,7 +103,7 @@ function processAndReplyToEmail(msg, email) {
 	// email
 	if (email !== null) {
 		console.log("email detected : " + email);
-		var index = Martiens.liste.indexOf(email);
+		var index = Martiens.liste.indexOf(email.toLowerCase());
 
 		msg.channel.sendMessage(msg.author + ", merci pour ton mail.");
 
