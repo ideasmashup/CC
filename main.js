@@ -4,7 +4,7 @@
 const fs = require('fs');
 const util = require('util');
 
-const VERSION = "0.1.2";
+const VERSION = "0.1.3";
 
 try {
 	var Discord = require("discord.js");
@@ -110,6 +110,8 @@ function processAndReplyToEmail(msg, email) {
 			// padding pour compenser le décalage des numéros dans la DB
 			if (index < 300) index = index + 300;
 			msg.channel.sendMessage("tu es " + index + "ème de la liste (sur 3000) ! A plus tard !");
+			msg.channel.sendMessage("PS: ce nombre permet d'avoir une idée de l'ordre d'envoi. Vous recevez un sms / mail dès que votre paquet est expédié de l'usine. Si vous n'avez rien reçu c'est que votre boîtier n'a pas encore quitté l'usine.");
+			msg.channel.sendMessage("**Le support ne peut pas donner de date de livraison car ils ne sont pas liés à la production des boitiers. Contactez le support pour les problèmes/pannes et pas pour les infos de livraison svp!!!**");
 		}
 
 		if (msg.channel.client == undefined) {
@@ -134,6 +136,7 @@ function processAndReply(msg) {
 	else if (isShippingRequest(msg.content)) {
 		// invite à fournir un mail si demande de numéro de commande potentielle
 		msg.channel.sendMessage(msg.author + ", pour connaître ton numéro de commande, passes-moi ton mail en MP ! Bonne journée !");
+		msg.channel.sendMessage("PS: ceci est seulement une indication de l'ordre d'expédition que l'on a demandé à l'usine. La suite dépend de l'usine et du transporteur des colis.");
 	}
 	else {
 		// réponse random
